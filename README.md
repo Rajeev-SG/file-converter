@@ -4,11 +4,22 @@ A modern web application for file preview and conversion, built with React and N
 
 ## Features
 
+### File Upload
+- Drag and drop file upload
+- Multiple file selection
+- File preview generation
+- File size display with automatic unit conversion
+- Supported formats:
+  * Markdown (.md)
+  * HTML (.html)
+  * PDF (.pdf) - Preview only
+
 ### File Preview
-- **Image Files**
-  - Visual preview with thumbnail generation
-  - Supports common formats (PNG, JPG, GIF, etc.)
-  - Responsive image scaling
+- Format-specific preview
+- File metadata display:
+  * Format type
+  * File size (B to GB)
+  * Preview content
 
 - **PDF Files**
   - Page count display
@@ -21,12 +32,19 @@ A modern web application for file preview and conversion, built with React and N
   - Supports various encodings
   - Clean, formatted display
 
-### File Management
-- Drag and drop file upload
-- Multiple file selection
-- File type detection
-- Progress tracking
-- Error handling
+### File Conversion Features
+
+#### Supported Conversions
+- Markdown to HTML
+- HTML to Markdown
+- PDF support coming soon
+
+#### Conversion Features
+- Real-time progress tracking
+- Batch file conversion
+- Error handling and reporting
+- Preview before conversion
+- Automatic format detection
 
 ## Technology Stack
 
@@ -37,18 +55,44 @@ A modern web application for file preview and conversion, built with React and N
 - PDF.js 3.11.174
 - React Dropzone
 - React Query
+- Material-UI (MUI)
 
 ### Backend
 - Node.js
 - Express
-- Multer
-- Sharp
+- Multer (file upload handling)
+- Sharp (image processing)
+- Markdown-it (markdown processing)
+
+## Project Structure
+
+```
+file-converter/
+├── client/                 # Frontend React application
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── types/        # TypeScript type definitions
+│   │   └── utils/        # Utility functions
+│   ├── public/           # Static assets
+│   └── package.json      # Frontend dependencies
+├── server/                # Backend Node.js application
+│   ├── src/
+│   │   ├── middleware/   # Express middleware
+│   │   ├── routes/      # API routes
+│   │   ├── services/    # Business logic
+│   │   └── errors/      # Error handling
+│   ├── uploads/         # Temporary file storage
+│   └── package.json     # Backend dependencies
+├── CHANGELOG.md          # Version history
+├── BUGS.md              # Known issues
+└── README.md            # Project documentation
+```
 
 ## Setup
 
 ### Prerequisites
-- Node.js 16+
-- npm 8+
+- Node.js >= 18
+- npm >= 9
 
 ### Installation
 
@@ -72,31 +116,45 @@ cd server
 npm install
 ```
 
-3. Start the development servers:
-
-For the client:
+3. Set up environment variables:
 ```bash
-cd client
-npm run dev
+# In the server directory
+cp .env.example .env
 ```
 
-For the server:
+Required environment variables:
+```
+PORT=7842
+NODE_ENV=development
+UPLOAD_DIR=uploads
+MAX_FILE_SIZE=10485760
+```
+
+### Running the Application
+
+1. Start the server:
 ```bash
 cd server
 npm run dev
 ```
 
+2. Start the client:
+```bash
+cd client
+npm run dev
+```
+
+3. Open http://localhost:5173 in your browser
+
 ## Known Limitations
 
-### PDF Preview
-- Limited to first 128 characters of text content
-- May have performance issues with large PDFs
-- Scanned PDFs without OCR won't show text preview
+### PDF Support
+- Currently limited to preview only
+- Conversion to/from PDF not yet supported
 - Complex layouts may affect text extraction
 
 ### Text Files
 - Preview limited to first 128 characters
-- No syntax highlighting
 - Fixed preview container size
 
 For a complete list of known issues and limitations, see [BUGS.md](BUGS.md).
@@ -116,75 +174,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed list of changes and updates.
-
-## Project Structure
-```
-file-converter/
-├── client/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ErrorBoundary/
-│   │   │   │   ├── ErrorBoundary.tsx
-│   │   │   │   └── ErrorBoundary.css
-│   │   │   └── FileUpload/
-│   │   │       ├── FileUpload.tsx
-│   │   │       └── FileUpload.css
-│   │   ├── App.tsx
-│   │   └── App.css
-│   ├── package.json
-│   ├── vite.config.ts
-│   └── tsconfig.json
-├── server/
-│   ├── src/
-│   │   ├── routes/
-│   │   ├── controllers/
-│   │   ├── middleware/
-│   │   └── utils/
-│   ├── package.json
-│   └── tsconfig.json
-├── CHANGELOG.md
-├── BUGS.md
-└── README.md
-```
-
-## Getting Started
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/file-converter.git
-   cd file-converter
-   ```
-
-2. Install dependencies:
-   ```bash
-   # Install client dependencies
-   cd client
-   npm install --ignore-scripts
-
-   # Install server dependencies
-   cd ../server
-   npm install
-   ```
-
-3. Set up environment variables:
-   ```bash
-   # In the server directory
-   cp .env.example .env
-   ```
-
-   Required environment variables:
-   ```
-   PORT=7842
-   NODE_ENV=development
-   UPLOAD_DIR=uploads
-   MAX_FILE_SIZE=10485760
-   ```
-
-4. Start the development servers:
-   ```bash
-   # Start client (from client directory)
-   npm run dev
-
-   # Start server (from server directory)
-   npm run dev
-   ```

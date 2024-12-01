@@ -4,12 +4,13 @@ import dotenv from 'dotenv';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
 import fileRoutes from './routes/fileRoutes';
+import conversionRoutes from './routes/conversion';
 
 // Load environment variables before any other code
 dotenv.config();
 
 const app = express();
-const port = parseInt(process.env.PORT || '7842', 10);
+const port = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/files', fileRoutes);
+app.use('/api', conversionRoutes);
 
 // Error handling
 app.use(errorHandler);

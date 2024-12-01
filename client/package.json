@@ -11,6 +11,9 @@
     "postinstall": "npm link vite"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/material": "^6.1.9",
     "axios": "^1.6.2",
     "pdfjs-dist": "^3.11.174",
     "react": "^18.2.0",

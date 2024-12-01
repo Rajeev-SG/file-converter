@@ -93,6 +93,7 @@ Additionally:
 12. Verify all directories and files exist
 13. Update README.md to reflect current project state
 ```
+* Improvement needed here, Cascade implemeted backend service for conversion but no ability to utilise in the font-end, need to spec out front-end requirements in more detail!
 
 ## 4. File Management and Concatenation
 

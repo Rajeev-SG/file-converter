@@ -5,6 +5,76 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2024-12-01
+
+### Added
+- Bidirectional conversion support between Markdown and HTML
+  - Convert Markdown files to HTML format
+  - Convert HTML files to Markdown format
+- Progress tracking for file conversions
+  - Real-time progress bar for each file
+  - Percentage completion display
+
+### Changed
+- Updated file conversion UI
+  - Simplified preview interface
+  - Added linear progress indicators
+  - Improved error message display
+
+### Known Limitations
+- PDF conversion is currently not supported
+  - Cannot convert to PDF format
+  - Cannot convert from PDF format
+  - PDF support planned for future release
+
+## [1.1.1] - 2024-01-XX
+
+### Added
+- File size display in preview cards
+  - Human-readable format (B, KB, MB, GB)
+  - Integrated with existing format display
+  - Automatic unit conversion
+
+### Technical Details
+- Added formatFileSize utility function
+  - Handles file sizes from bytes to gigabytes
+  - Rounds to nearest whole number
+  - Automatically selects appropriate unit
+
+### Changed
+- Enhanced file preview cards with size information
+- Improved format and size display layout
+
+## [1.1.0] - 2024-01-XX
+
+### Added
+- Core file conversion functionality with support for markdown, PDF, and HTML formats
+- Real-time format conversion with progress tracking
+- Conversion queue system for managing multiple conversion requests
+- Comprehensive error handling and validation for file conversions
+- Integration of key conversion libraries:
+  - marked: For markdown processing
+  - pdf-lib: For PDF generation and manipulation
+  - jsdom: For HTML parsing and manipulation
+- Front-end features:
+  - Checkbox selection for files to convert
+  - Format selection dropdown
+  - Real-time conversion progress indicators
+  - Automatic download of converted files
+  - Support for multiple file conversion
+
+### Changed
+- Updated server dependencies to support new conversion features
+- Enhanced error handling with custom ConversionError class
+- Improved type safety with TypeScript interfaces for conversion jobs
+- Integrated file conversion UI with existing upload component
+- Added Material-UI components for better user experience
+
+### Known Issues
+- PDF to other format conversions not yet implemented
+- HTML to markdown conversion currently provides basic text extraction only
+- Complex HTML to PDF conversion needs improvement for better formatting
+
 ## [0.2.4] - 2024-01-25
 
 ### Added

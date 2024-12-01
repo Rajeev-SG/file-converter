@@ -101,6 +101,17 @@ This document tracks known issues and deprecated packages in the current boilerp
    - Improve error message presentation
    - Add more interactive loading states
 
+## File Size Display
+
+### Known Issues
+- File sizes above 4GB may not display correctly due to JavaScript number precision limitations
+- Some browsers may report incorrect file sizes for files larger than 2GB
+- File size calculation might be affected by system-specific file attributes
+
+### Warnings
+- Large file handling may cause performance issues in the preview generation
+- Memory usage increases with the number of large files being previewed simultaneously
+
 ## File Preview System
 
 ### Known Issues
@@ -161,6 +172,63 @@ This document tracks known issues and deprecated packages in the current boilerp
    - Add retry mechanism for failed worker initialization
    - Implement preview size controls
    - Add file type icons for better visualization
+
+## File Conversion System
+
+### Critical Issues
+1. PDF Conversion Limitations
+   - **Issue**: PDF to other format conversions not yet implemented
+   - **Impact**: Users cannot convert from PDF to markdown or HTML
+   - **Status**: To be implemented
+   - **Workaround**: None currently available
+
+2. HTML to Markdown Conversion
+   - **Issue**: Basic text extraction only, formatting not preserved
+   - **Impact**: Loss of HTML structure and styling in markdown output
+   - **Status**: In progress
+   - **Workaround**: Manual formatting after conversion
+
+### Warnings
+1. HTML to PDF Conversion
+   - **Issue**: Complex HTML layouts may not render correctly
+   - **Impact**: PDF output might not match HTML layout exactly
+   - **Status**: Needs improvement
+   - **Workaround**: Use simpler HTML structures for better results
+
+2. Large File Handling
+   - **Issue**: Memory usage spikes with large files
+   - **Impact**: Potential performance issues with files over 10MB
+   - **Status**: Monitoring
+   - **Workaround**: Split large files before conversion
+
+## File Conversion Issues
+
+### PDF Conversion
+1. **PDF Generation Failure**
+   - Status: Critical
+   - Issue: Cannot convert files to PDF format due to character encoding issues
+   - Error: "WinAnsi cannot encode \"├\" (0x251c)"
+   - Affects: HTML to PDF and Markdown to PDF conversions
+   - Root Cause: Character encoding incompatibility in PDF generation library
+   - Workaround: Currently no workaround available
+   - Fix: Investigate alternative PDF generation libraries or implement proper character encoding
+   - Priority: High
+
+2. **PDF Reading**
+   - Status: Critical
+   - Issue: Cannot convert PDF files to other formats
+   - Affects: PDF to HTML and PDF to Markdown conversions
+   - Root Cause: PDF parsing functionality not implemented
+   - Fix: Implement PDF parsing using pdf.js or similar library
+   - Priority: High
+
+### Character Encoding
+1. **Special Characters**
+   - Status: Major
+   - Issue: Special characters cause conversion failures
+   - Affects: Primarily PDF conversion
+   - Fix: Implement proper character encoding handling
+   - Priority: High
 
 ## Resolution Timeline
 
