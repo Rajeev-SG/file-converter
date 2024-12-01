@@ -44,18 +44,24 @@ This document tracks known issues and deprecated packages in the current boilerp
 ### Known Limitations
 1. **File Preview**
    - Text files show only first 128 characters
-   - PDF preview limited to metadata (pages, dimensions)
-   - No PDF text content extraction
-   - No PDF page thumbnails
+   - PDF preview functionality fully implemented with:
+     - Text extraction
+     - Page count display
+     - First 128 characters preview
    - Large PDFs may cause performance issues
    - Preview container size fixed, may truncate content
 
 2. **File Size**
    - Maximum file size limited to 10MB
-   - No progress indicator for large file uploads
+   - Progress indicator implemented for file uploads and conversions
    - Potential memory issues with multiple large files
 
-3. **Browser Compatibility**
+3. **File Conversion**
+   - PDF conversion currently not supported (both to and from PDF)
+   - HTML to markdown conversion provides basic text extraction only
+   - Complex HTML to PDF conversion needs improvement for formatting
+
+4. **Browser Compatibility**
    - File preview may not work in older browsers
    - Drag and drop functionality requires modern browser support
    - CSS animations may not work in all browsers
@@ -72,7 +78,7 @@ This document tracks known issues and deprecated packages in the current boilerp
    - Error boundary may not catch all edge cases
 
 3. **User Experience**
-   - Loading states could be more informative
+   - Loading states implemented with progress indicators
    - Drag and drop zone could be more intuitive
    - File type validation messages could be clearer
 
@@ -81,15 +87,10 @@ This document tracks known issues and deprecated packages in the current boilerp
    - Implement file chunking for large uploads
    - Add compression for image previews
    - Optimize memory usage for multiple files
-   - Add PDF text content extraction
-   - Implement PDF page thumbnails
-   - Add PDF content caching
+   - Implement PDF content caching
 
 2. **Features**
-   - Add full PDF text content preview
-   - Implement PDF page navigation
-   - Add PDF thumbnail generation
-   - Support PDF text search
+   - Implement PDF conversion support
    - Add PDF zoom functionality
    - Implement text encoding detection
    - Add code syntax highlighting
@@ -98,8 +99,8 @@ This document tracks known issues and deprecated packages in the current boilerp
 
 3. **User Interface**
    - Enhance drag and drop visual feedback
-   - Improve error message presentation
-   - Add more interactive loading states
+   - Further improve error message presentation
+   - Optimize preview container layout for different file types
 
 ## File Size Display
 

@@ -88,6 +88,26 @@ export const FileConversion: React.FC<FileConversionProps> = ({ files, onConvers
           Conversion Preview
         </Typography>
 
+        {queuedFiles.map((queuedFile, index) => (
+          <Box key={index} sx={{ mb: 3, p: 2, border: '1px solid #e0e0e0', borderRadius: 1 }}>
+            <Typography variant="subtitle2" gutterBottom>
+              {queuedFile.file.name}
+            </Typography>
+            
+            {queuedFile.file.previewContent && (
+              <Paper sx={{ p: 2, mb: 2, bgcolor: '#f5f5f5', maxHeight: '200px', overflow: 'auto' }}>
+                <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+                  {queuedFile.file.previewContent}
+                </Typography>
+              </Paper>
+            )}
+
+            {queuedFile.progress > 0 && (
+              <LinearProgress variant="determinate" value={queuedFile.progress} sx={{ mt: 1 }} />
+            )}
+          </Box>
+        ))}
+
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle1" gutterBottom>
             Target Format:
@@ -102,26 +122,6 @@ export const FileConversion: React.FC<FileConversionProps> = ({ files, onConvers
             <MenuItem value="pdf">PDF</MenuItem>
             <MenuItem value="markdown">Markdown</MenuItem>
           </Select>
-        </Box>
-
-        <Box sx={{ mt: 3 }}>
-          {queuedFiles.map((queuedFile: QueuedFile, index: number) => (
-            <Box key={index} sx={{ mb: 2 }}>
-              <Typography variant="body1">
-                {queuedFile.file.name}
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-                <Box sx={{ width: '100%', mr: 1 }}>
-                  <LinearProgress variant="determinate" value={queuedFile.progress} />
-                </Box>
-                <Box sx={{ minWidth: 35 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    {queuedFile.progress}%
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          ))}
         </Box>
 
         {error && (

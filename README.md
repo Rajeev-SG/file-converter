@@ -66,40 +66,155 @@ A modern web application for file preview and conversion, built with React and N
 
 ## Project Structure
 
-```
-file-converter/
-├── client/                    # Frontend React application
-│   ├── src/                  # Source code directory
-│   │   ├── components/       # React components
-│   │   ├── assets/          # Static assets
-│   │   ├── types/           # TypeScript type definitions
-│   │   └── App.tsx          # Root component
-│   ├── public/              # Public static files
-│   ├── node_modules/        # Client dependencies
-│   ├── index.html          # Entry HTML file
-│   ├── tsconfig.json       # TypeScript configuration
-│   ├── vite.config.ts      # Vite configuration
-│   └── package.json        # Frontend dependencies
-├── server/                   # Backend Node.js application
-│   ├── src/                 # Source code directory
-│   │   ├── controllers/     # Request handlers
-│   │   ├── middleware/      # Express middleware
-│   │   ├── routes/         # API routes
-│   │   ├── services/       # Business logic
-│   │   ├── utils/          # Utility functions
-│   │   └── errors/         # Error handling
-│   ├── uploads/            # Temporary file storage
-│   ├── logs/              # Application logs
-│   ├── node_modules/      # Server dependencies
-│   ├── .env              # Environment variables
-│   ├── .env.example      # Environment template
-│   └── package.json      # Backend dependencies
-├── prompts/               # Development prompts
-├── CHANGELOG.md          # Version history
-├── BUGS.md              # Known issues
-├── README.md            # Project documentation
-└── package.json         # Root package.json
-```
+The application follows a client-server architecture with React on the frontend and Node.js on the backend.
+
+### Client Architecture (`/client`)
+
+#### Core Components
+
+##### FileUpload Component
+- **Location**: `/client/src/components/FileUpload/`
+- **Files**:
+  * `FileUpload.tsx`
+  * `FileUpload.css`
+- **Responsibilities**:
+  * File selection and drag-drop handling
+  * Initial file validation
+  * Preview generation for multiple file types
+  * File metadata extraction
+- **Dependencies**:
+  * External: react-dropzone, pdfjs-dist, Material-UI
+  * Internal: conversion types
+- **State Management**: Local component state for:
+  * Selected files
+  * Preview content
+  * Upload status
+
+##### FileConversion Component
+- **Location**: `/client/src/components/FileConversion/`
+- **Files**:
+  * `FileConversion.tsx`
+- **Responsibilities**:
+  * Conversion queue management
+  * Format selection interface
+  * Progress tracking
+  * Preview display
+  * Error state handling
+- **Dependencies**:
+  * External: Material-UI
+  * Internal: conversion types
+- **State Management**: Local state for:
+  * Conversion queue
+  * Progress tracking
+  * Format selection
+
+##### ErrorBoundary Component
+- **Location**: `/client/src/components/ErrorBoundary/`
+- **Files**:
+  * `ErrorBoundary.tsx`
+  * `ErrorBoundary.css`
+- **Responsibilities**:
+  * Global error catching
+  * Error UI rendering
+  * Error logging
+- **Dependencies**:
+  * External: Material-UI
+- **State Management**: Local error state for:
+  * Error information
+  * Recovery options
+
+#### Client Directory Structure
+- `/src`
+  * `App.tsx` - Main application component
+  * `main.tsx` - Application entry point
+  * `App.css` - Global styles
+  * `/components` - React components
+  * `/assets` - Static assets
+  * `/types` - TypeScript type definitions
+- `vite.config.ts` - Vite build configuration
+- `tsconfig.json` - TypeScript configuration
+- `package.json` - Dependencies and scripts
+
+### Server Architecture (`/server`)
+
+#### Core Components
+
+##### API Routes (`/src/routes`)
+- **Files**:
+  * `fileRoutes.ts` - File upload endpoints
+  * `conversion.ts` - Conversion endpoints
+- **Responsibilities**:
+  * Route handling for file operations
+  * Conversion request processing
+  * Response formatting
+
+##### Controllers (`/src/controllers`)
+- **Files**:
+  * `fileController.ts` - File operation handlers
+- **Responsibilities**:
+  * File upload handling
+  * Conversion process management
+  * Error handling
+
+##### Services (`/src/services`)
+- **Files**:
+  * `ConversionService.ts` - Core conversion logic
+- **Responsibilities**:
+  * File format conversion
+  * Progress tracking
+  * Temporary file management
+
+##### Middleware (`/src/middleware`)
+- **Files**:
+  * `errorHandler.ts` - Global error handling
+  * `upload.ts` - File upload middleware
+- **Responsibilities**:
+  * Request validation
+  * Error processing
+  * File upload processing
+
+#### Server Directory Structure
+- `/src`
+  * `index.ts` - Server entry point
+  * `/routes` - API route definitions
+  * `/controllers` - Request handlers
+  * `/services` - Business logic
+  * `/middleware` - Express middleware
+  * `/errors` - Custom error definitions
+  * `/utils` - Utility functions
+- `/uploads` - Temporary file storage
+- `/logs` - Application logs
+- `.env` - Environment configuration
+- `tsconfig.json` - TypeScript configuration
+- `package.json` - Dependencies and scripts
+
+### Configuration Files
+- `.gitignore` - Git ignore rules
+- `.env.example` - Environment variables template
+
+## Implementation Details
+
+### File Upload Flow
+1. Client-side validation and file preview generation
+2. Secure file upload to server's temporary storage
+3. Server-side format validation
+4. Preview generation and metadata extraction
+
+### Conversion Process
+1. File format detection and validation
+2. Conversion service selection based on file type:
+   - Markdown to HTML using marked
+   - HTML to Markdown using custom DOM parsing
+   - PDF processing using pdf-lib
+3. Progress tracking through server events
+4. Queue management for multiple conversions
+5. Error handling and cleanup
+
+### Error Handling
+- Client-side validation with user feedback
+- Server-side error middleware for consistent error responses
+- Automatic cleanup of temporary files
+- Detailed error logging
 
 ## Setup
 
