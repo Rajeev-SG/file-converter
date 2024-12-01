@@ -5,6 +5,123 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.4] - 2024-01-25
+
+### Added
+- Full PDF preview functionality with text extraction
+- PDF page count display
+- First 128 characters preview of PDF content
+- Improved error handling for PDF processing
+
+### Changed
+- Switched from pdf-lib to PDF.js for better text extraction
+- Updated PDF worker initialization process
+- Enhanced preview component architecture
+- Improved error messaging for failed PDF processing
+
+### Fixed
+- PDF worker initialization issues
+- PDF text extraction errors
+- Worker loading from CDN failures
+- Vite configuration for PDF.js support
+- Package version conflicts
+
+### Technical Details
+- Integrated PDF.js (v3.11.174) for PDF processing
+- Updated Vite configuration for proper worker handling
+- Implemented direct worker initialization using import.meta.url
+- Added proper error boundaries for PDF processing
+- Optimized PDF text extraction process
+
+### Known Issues
+- Large PDFs may cause performance slowdown
+- Some PDFs with complex layouts may have inconsistent text extraction
+- Non-text PDFs (scanned documents) won't show content preview
+- Memory usage may increase with multiple large PDFs
+
+## [0.2.3] - 2024-01-25
+
+### Added
+- PDF file preview functionality:
+  - Display number of pages in PDF
+  - Show PDF dimensions
+  - Basic PDF metadata display
+  - Improved PDF preview styling
+
+### Changed
+- Enhanced file preview UI:
+  - Added PDF-specific preview styles
+  - Better formatting for PDF information
+  - Consistent preview layout across file types
+  - Improved error handling for PDF processing
+
+### Technical Details
+- Integrated pdf-lib for PDF processing
+- Added PDF content extraction logic
+- Enhanced error handling for PDF files
+- Improved preview component architecture
+
+### Known Limitations
+- PDF text content extraction not yet implemented
+- Preview limited to basic PDF metadata
+- Large PDF files may cause performance issues
+- No thumbnail generation for PDF pages
+
+## [0.2.2] - 2024-01-25
+
+### Added
+- Text and PDF file content preview:
+  - Display first 128 characters of text files
+  - Show file information for PDF files
+  - Monospace font for text content display
+  - Elegant preview container with scroll handling
+
+### Changed
+- Enhanced file preview UI:
+  - Added text content preview styling
+  - Improved preview container layout
+  - Better overflow handling for long text
+  - Consistent preview sizes across file types
+
+### Technical Details
+- Added previewContent property to FileWithPreview interface
+- Implemented async file content reading
+- Enhanced error handling for file processing
+- Added text content truncation logic
+
+### Known Limitations
+- PDF content preview shows only filename
+- Text preview limited to first 128 characters
+- No syntax highlighting for code files
+- Some text encodings may not display correctly
+
+## [0.2.1] - 2024-01-24
+
+### Added
+- Enhanced file preview functionality:
+  - Display file name with truncation for long names
+  - Show file format based on extension
+  - Human-readable file size display (B, KB, MB)
+  - Improved layout and visual hierarchy for file information
+  - File type icon display for non-image files
+
+### Changed
+- Updated file preview UI with modern design
+- Improved file information organization and readability
+- Enhanced remove file button interaction
+- Better handling of long file names
+
+### Technical Details
+- Added format property to FileWithPreview interface
+- Improved file size formatting logic
+- Enhanced CSS styling for file preview components
+- Better component organization and layout structure
+
+### Known Limitations
+- Text and PDF file content preview not yet implemented
+- Maximum file name display length of 20 characters
+- File format detection based on extension only
+
 ## [0.2.0] - 2024-01-24
 
 ### Added

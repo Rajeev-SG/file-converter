@@ -43,9 +43,12 @@ This document tracks known issues and deprecated packages in the current boilerp
 
 ### Known Limitations
 1. **File Preview**
-   - Only image files have visual previews
-   - Text and PDF files show only metadata
-   - No preview available for other file types
+   - Text files show only first 128 characters
+   - PDF preview limited to metadata (pages, dimensions)
+   - No PDF text content extraction
+   - No PDF page thumbnails
+   - Large PDFs may cause performance issues
+   - Preview container size fixed, may truncate content
 
 2. **File Size**
    - Maximum file size limited to 10MB
@@ -78,16 +81,86 @@ This document tracks known issues and deprecated packages in the current boilerp
    - Implement file chunking for large uploads
    - Add compression for image previews
    - Optimize memory usage for multiple files
+   - Add PDF text content extraction
+   - Implement PDF page thumbnails
+   - Add PDF content caching
 
 2. **Features**
-   - Add preview support for more file types
-   - Implement upload progress indicator
-   - Add file type conversion preview
+   - Add full PDF text content preview
+   - Implement PDF page navigation
+   - Add PDF thumbnail generation
+   - Support PDF text search
+   - Add PDF zoom functionality
+   - Implement text encoding detection
+   - Add code syntax highlighting
+   - Support more text-based file formats
+   - Add preview zoom functionality
 
 3. **User Interface**
    - Enhance drag and drop visual feedback
    - Improve error message presentation
    - Add more interactive loading states
+
+## File Preview System
+
+### Known Issues
+1. **PDF Preview**
+   - Large PDFs (>10MB) may cause performance issues
+   - Complex PDF layouts may result in inconsistent text extraction
+   - Scanned PDFs without OCR won't show text content
+   - Memory usage increases with multiple PDF previews
+   - Some PDF fonts may not render correctly in preview
+   - PDF preview limited to first 128 characters
+
+2. **Text Files**
+   - Text files show only first 128 characters
+   - Some text encodings may not display correctly
+   - No syntax highlighting for code files
+   - Preview container size fixed, may truncate content
+
+3. **Performance**
+   - Multiple large files may cause UI lag
+   - PDF processing can be CPU intensive
+   - Memory leaks possible with many PDF previews
+   - Worker initialization may fail in poor network conditions
+
+### Development Warnings
+1. **Package Dependencies**
+   - Deprecated package warnings for:
+     * are-we-there-yet@2.0.0
+     * npmlog@5.0.1
+     * gauge@3.0.2
+   - High severity vulnerability reported (needs audit)
+
+2. **Build Process**
+   - Vite postinstall script requires sudo permissions
+   - PDF.js worker path resolution sensitive to build configuration
+   - Development server may need restart after PDF.js changes
+
+### Future Improvements
+1. **PDF Handling**
+   - Implement PDF text content caching
+   - Add full PDF content preview
+   - Support PDF page navigation
+   - Add PDF thumbnail generation
+   - Implement text search within PDFs
+   - Add zoom functionality
+   - Optimize memory usage for large PDFs
+   - Add progress indicator for PDF processing
+
+2. **Performance Optimization**
+   - Implement lazy loading for PDF preview
+   - Add file size checks before processing
+   - Implement worker pool for PDF processing
+   - Add compression for preview content
+   - Optimize memory usage for multiple files
+
+3. **User Experience**
+   - Add loading indicators for PDF processing
+   - Improve error messages for failed previews
+   - Add retry mechanism for failed worker initialization
+   - Implement preview size controls
+   - Add file type icons for better visualization
 
 ## Resolution Timeline
 

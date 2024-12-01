@@ -1,75 +1,151 @@
-# File Converter Web Application
+# File Converter
 
-A modern, intuitive web application for converting files between various formats with real-time preview capabilities.
+A modern web application for file preview and conversion, built with React and Node.js.
 
-## Current Status
+## Features
 
-**Project Status**: Active Development (v0.2.0)
-- Basic project structure established
-- Development environment configured
-- Core dependencies installed
-- File upload system implemented
-- Error handling system in place
+### File Preview
+- **Image Files**
+  - Visual preview with thumbnail generation
+  - Supports common formats (PNG, JPG, GIF, etc.)
+  - Responsive image scaling
 
-## Features (Implemented)
+- **PDF Files**
+  - Page count display
+  - Text content preview (first 128 characters)
+  - Supports text-based PDFs
+  - Fast preview generation
 
-### File Upload System
-- Drag and drop file upload with visual feedback
-- Multiple file upload support
-- File type validation (.txt, .md, .pdf, images)
-- Real-time preview for image files
-- Maximum file size: 10MB per file
-- Beautiful loading states and transitions
+- **Text Files**
+  - Content preview (first 128 characters)
+  - Supports various encodings
+  - Clean, formatted display
 
-### Error Handling
-- Comprehensive error boundary implementation
-- User-friendly error messages
-- Graceful error recovery
-- Development mode detailed error information
+### File Management
+- Drag and drop file upload
+- Multiple file selection
+- File type detection
+- Progress tracking
+- Error handling
 
-### User Interface
-- Modern, responsive design
-- Intuitive drag and drop interface
-- Real-time upload feedback
-- Clean, minimalist layout
-- Smooth animations and transitions
-
-## Features (Planned)
-
-- File format conversion
-- Preview support for more file types
-- Progress indicator for large files
-- File compression options
-- Batch processing capabilities
-
-## Tech Stack
+## Technology Stack
 
 ### Frontend
-- React with TypeScript
-- Vite (dev server on port 4269)
-- React Query for state management
-- React Dropzone for file uploads
-- Axios for HTTP requests
+- React 18.2
+- TypeScript
+- Vite
+- PDF.js 3.11.174
+- React Dropzone
+- React Query
 
 ### Backend
-- Node.js with Express (running on port 7842)
-- TypeScript
-- Winston for logging
-- Multer for file handling
+- Node.js
+- Express
+- Multer
+- Sharp
 
-## Prerequisites
+## Setup
 
-- Node.js (v18 or higher)
-- npm (v8 or higher)
+### Prerequisites
+- Node.js 16+
+- npm 8+
 
-## Known Issues
+### Installation
 
-- Some ESLint-related packages are deprecated and will be updated soon
-- TypeScript ESLint plugin has peer dependency conflicts (currently using --legacy-peer-deps as workaround)
-- Preview only available for image files
-- Maximum file size: 10MB per file
-- Supported formats: .txt, .md, .pdf, and common image formats
-- See [BUGS.md](BUGS.md) for full list of known issues
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd file-converter
+```
+
+2. Install dependencies:
+
+For the client:
+```bash
+cd client
+npm install --ignore-scripts
+```
+
+For the server:
+```bash
+cd server
+npm install
+```
+
+3. Start the development servers:
+
+For the client:
+```bash
+cd client
+npm run dev
+```
+
+For the server:
+```bash
+cd server
+npm run dev
+```
+
+## Known Limitations
+
+### PDF Preview
+- Limited to first 128 characters of text content
+- May have performance issues with large PDFs
+- Scanned PDFs without OCR won't show text preview
+- Complex layouts may affect text extraction
+
+### Text Files
+- Preview limited to first 128 characters
+- No syntax highlighting
+- Fixed preview container size
+
+For a complete list of known issues and limitations, see [BUGS.md](BUGS.md).
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a detailed list of changes and updates.
+
+## Project Structure
+```
+file-converter/
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── ErrorBoundary/
+│   │   │   │   ├── ErrorBoundary.tsx
+│   │   │   │   └── ErrorBoundary.css
+│   │   │   └── FileUpload/
+│   │   │       ├── FileUpload.tsx
+│   │   │       └── FileUpload.css
+│   │   ├── App.tsx
+│   │   └── App.css
+│   ├── package.json
+│   ├── vite.config.ts
+│   └── tsconfig.json
+├── server/
+│   ├── src/
+│   │   ├── routes/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   └── utils/
+│   ├── package.json
+│   └── tsconfig.json
+├── CHANGELOG.md
+├── BUGS.md
+└── README.md
+```
 
 ## Getting Started
 
@@ -83,7 +159,7 @@ A modern, intuitive web application for converting files between various formats
    ```bash
    # Install client dependencies
    cd client
-   npm install
+   npm install --ignore-scripts
 
    # Install server dependencies
    cd ../server
@@ -104,7 +180,7 @@ A modern, intuitive web application for converting files between various formats
    MAX_FILE_SIZE=10485760
    ```
 
-3. Start the development servers:
+4. Start the development servers:
    ```bash
    # Start client (from client directory)
    npm run dev
@@ -112,43 +188,3 @@ A modern, intuitive web application for converting files between various formats
    # Start server (from server directory)
    npm run dev
    ```
-
-## Project Structure
-
-```
-file-converter/
-├── client/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ErrorBoundary/
-│   │   │   │   ├── ErrorBoundary.tsx
-│   │   │   │   └── ErrorBoundary.css
-│   │   │   └── FileUpload/
-│   │   │       ├── FileUpload.tsx
-│   │   │       └── FileUpload.css
-│   │   ├── App.tsx
-│   │   └── App.css
-│   └── ...
-├── server/
-│   └── ...
-├── CHANGELOG.md
-├── BUGS.md
-└── README.md
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Documentation
-
-- [CHANGELOG.md](CHANGELOG.md) - Detailed version history and changes
-- [BUGS.md](BUGS.md) - Known issues and technical debt
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -1,9 +1,18 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
+import * as pdfjsLib from 'pdfjs-dist';
 import './FileUpload.css';
+
+// Initialize PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url
+).toString();
 
 interface FileWithPreview extends File {
   preview?: string;
+  format?: string;
+  previewContent?: string;
 }
 
 export const FileUpload: React.FC = () => {
@@ -11,22 +20,93 @@ export const FileUpload: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const readPdfContent = async (file: File): Promise<string> => {
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+      const pdf = await loadingTask.promise;
+      
+      if (pdf.numPages === 0) {
+        return 'PDF document is empty';
+      }
+
+      // Get text from first page
+      const page = await pdf.getPage(1);
+      const textContent = await page.getTextContent();
+      const text = textContent.items
+        .map((item: any) => item.str)
+        .join(' ')
+        .slice(0, 128);
+
+      return `PDF Document - ${pdf.numPages} page(s)\n${text}...`;
+    } catch (err) {
+      console.error('Error reading PDF:', err);
+      return 'Error reading PDF content';
+    }
+  };
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setError(null);
     setIsLoading(true);
 
-    const newFiles = acceptedFiles.map(file => {
-      // Create preview for supported file types
+    const processFiles = acceptedFiles.map(async file => {
+      const format = file.name.split('.').pop()?.toUpperCase() || 'Unknown';
+      
+      // Handle text files
+      if (file.type === 'text/plain' || file.type === 'text/markdown') {
+        try {
+          const text = await file.text();
+          return Object.assign(file, {
+            format,
+            previewContent: text.slice(0, 128)
+          });
+        } catch (err) {
+          console.error('Error reading file:', err);
+          return Object.assign(file, {
+            format,
+            previewContent: 'Error reading file content'
+          });
+        }
+      }
+      
+      // Handle images
       if (file.type.startsWith('image/')) {
         return Object.assign(file, {
-          preview: URL.createObjectURL(file)
+          preview: URL.createObjectURL(file),
+          format
         });
       }
-      return file;
+      
+      // Handle PDFs
+      if (file.type === 'application/pdf') {
+        try {
+          const pdfContent = await readPdfContent(file);
+          return Object.assign(file, {
+            format,
+            previewContent: pdfContent
+          });
+        } catch (err) {
+          console.error('Error processing PDF:', err);
+          return Object.assign(file, {
+            format,
+            previewContent: 'Error processing PDF file'
+          });
+        }
+      }
+      
+      return Object.assign(file, { format });
     });
 
-    setFiles(prevFiles => [...prevFiles, ...newFiles]);
-    setIsLoading(false);
+    Promise.all(processFiles)
+      .then(newFiles => {
+        setFiles(prevFiles => [...prevFiles, ...newFiles]);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('Error processing files:', err);
+        setError('An error occurred while processing the files.');
+        setIsLoading(false);
+      });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -112,25 +192,54 @@ export const FileUpload: React.FC = () => {
           {files.map((file, index) => (
             <div key={`${file.name}-${index}`} className="file-preview">
               <div className="file-info">
-                <span className="file-name">{file.name}</span>
-                <span className="file-size">
-                  {(file.size / 1024).toFixed(1)} KB
-                </span>
+                <div className="file-header">
+                  <span className="file-name" title={file.name}>
+                    {file.name.length > 20 ? `${file.name.substring(0, 20)}...` : file.name}
+                  </span>
+                  <button
+                    onClick={() => removeFile(index)}
+                    className="remove-file"
+                    title="Remove file"
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="file-details">
+                  <span className="file-format">{file.format}</span>
+                  <span className="file-size">
+                    {file.size < 1024
+                      ? `${file.size} B`
+                      : file.size < 1024 * 1024
+                      ? `${(file.size / 1024).toFixed(1)} KB`
+                      : `${(file.size / (1024 * 1024)).toFixed(1)} MB`}
+                  </span>
+                </div>
               </div>
-              {file.preview && (
+              {file.preview ? (
                 <img
                   src={file.preview}
                   alt={`Preview of ${file.name}`}
                   className="preview-image"
                 />
+              ) : (
+                <div className="file-type-icon">
+                  <div className="preview-header">{file.format}</div>
+                  <div className={`preview-content ${file.type === 'application/pdf' ? 'pdf-preview' : ''}`}>
+                    {file.type === 'application/pdf' ? (
+                      <>
+                        <div className="pdf-info">
+                          {file.previewContent?.split('\n')[0]}
+                        </div>
+                        <div className="pdf-text">
+                          {file.previewContent?.split('\n').slice(1).join('\n')}
+                        </div>
+                      </>
+                    ) : (
+                      file.previewContent || file.format
+                    )}
+                  </div>
+                </div>
               )}
-              <button
-                onClick={() => removeFile(index)}
-                className="remove-file"
-                title="Remove file"
-              >
-                ×
-              </button>
             </div>
           ))}
         </div>
