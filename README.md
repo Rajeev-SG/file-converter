@@ -68,24 +68,37 @@ A modern web application for file preview and conversion, built with React and N
 
 ```
 file-converter/
-├── client/                 # Frontend React application
-│   ├── src/
-│   │   ├── components/    # React components
-│   │   ├── types/        # TypeScript type definitions
-│   │   └── utils/        # Utility functions
-│   ├── public/           # Static assets
-│   └── package.json      # Frontend dependencies
-├── server/                # Backend Node.js application
-│   ├── src/
-│   │   ├── middleware/   # Express middleware
-│   │   ├── routes/      # API routes
-│   │   ├── services/    # Business logic
-│   │   └── errors/      # Error handling
-│   ├── uploads/         # Temporary file storage
-│   └── package.json     # Backend dependencies
+├── client/                    # Frontend React application
+│   ├── src/                  # Source code directory
+│   │   ├── components/       # React components
+│   │   ├── assets/          # Static assets
+│   │   ├── types/           # TypeScript type definitions
+│   │   └── App.tsx          # Root component
+│   ├── public/              # Public static files
+│   ├── node_modules/        # Client dependencies
+│   ├── index.html          # Entry HTML file
+│   ├── tsconfig.json       # TypeScript configuration
+│   ├── vite.config.ts      # Vite configuration
+│   └── package.json        # Frontend dependencies
+├── server/                   # Backend Node.js application
+│   ├── src/                 # Source code directory
+│   │   ├── controllers/     # Request handlers
+│   │   ├── middleware/      # Express middleware
+│   │   ├── routes/         # API routes
+│   │   ├── services/       # Business logic
+│   │   ├── utils/          # Utility functions
+│   │   └── errors/         # Error handling
+│   ├── uploads/            # Temporary file storage
+│   ├── logs/              # Application logs
+│   ├── node_modules/      # Server dependencies
+│   ├── .env              # Environment variables
+│   ├── .env.example      # Environment template
+│   └── package.json      # Backend dependencies
+├── prompts/               # Development prompts
 ├── CHANGELOG.md          # Version history
 ├── BUGS.md              # Known issues
-└── README.md            # Project documentation
+├── README.md            # Project documentation
+└── package.json         # Root package.json
 ```
 
 ## Setup
