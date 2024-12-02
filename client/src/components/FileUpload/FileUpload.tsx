@@ -208,12 +208,10 @@ export const FileUpload: React.FC = () => {
       </Grid>
 
       <Grid item xs={12} md={6}>
-        {selectedFiles.length > 0 && (
-          <FileConversion
-            files={selectedFiles}
-            onConversionComplete={handleConversionComplete}
-          />
-        )}
+        <FileConversion
+          files={selectedFiles}
+          onConversionComplete={handleConversionComplete}
+        />
       </Grid>
     </Grid>
   );
