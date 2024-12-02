@@ -83,32 +83,128 @@ export const FileConversion: React.FC<FileConversionProps> = ({ files, onConvers
 
   return (
     <Box sx={{ mt: 4 }}>
-      <Paper sx={{ p: 3, bgcolor: 'background.paper' }}>
+      <Paper 
+        sx={{ 
+          p: 3, 
+          bgcolor: 'background.paper',
+          minHeight: '400px',
+          display: 'flex',
+          flexDirection: 'column',
+          border: '1px solid',
+          borderColor: 'divider',
+          borderRadius: 1
+        }}
+      >
         <Typography variant="h6" gutterBottom>
-          Conversion Preview
+          File Preview
         </Typography>
 
-        {queuedFiles.map((queuedFile, index) => (
-          <Box key={index} sx={{ mb: 3, p: 2, border: '1px solid #e0e0e0', borderRadius: 1 }}>
-            <Typography variant="subtitle2" gutterBottom>
-              {queuedFile.file.name}
-            </Typography>
-            
-            {queuedFile.file.previewContent && (
-              <Paper sx={{ p: 2, mb: 2, bgcolor: '#f5f5f5', maxHeight: '200px', overflow: 'auto' }}>
-                <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
-                  {queuedFile.file.previewContent}
+        <Box sx={{ 
+          flex: 1, 
+          minHeight: '300px', 
+          mb: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: files.length === 0 ? 'center' : 'flex-start',
+          alignItems: files.length === 0 ? 'center' : 'stretch',
+          border: '1px solid',
+          borderColor: 'divider',
+          borderRadius: 1,
+          bgcolor: 'background.default',
+          p: 3
+        }}>
+          {files.length === 0 ? (
+            <Box sx={{ 
+              textAlign: 'center', 
+              maxWidth: '400px',
+              mx: 'auto'
+            }}>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                No Files Selected
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                To get started:
+              </Typography>
+              <Box sx={{ 
+                textAlign: 'left', 
+                bgcolor: 'background.paper',
+                p: 2,
+                borderRadius: 1,
+                border: '1px solid',
+                borderColor: 'divider'
+              }}>
+                <Typography variant="body2" component="div" color="text.secondary">
+                  1. Select files using the upload area on the left<br/>
+                  2. Choose your target format below<br/>
+                  3. Click "Convert Files" to begin conversion
                 </Typography>
-              </Paper>
-            )}
+              </Box>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                Supported formats: Markdown (.md), HTML (.html), PDF (.pdf)
+              </Typography>
+            </Box>
+          ) : (
+            <Box sx={{ 
+              flex: 1, 
+              overflowY: 'auto',
+              width: '100%'
+            }}>
+              {files.map((file, index) => (
+                <Box 
+                  key={index} 
+                  sx={{ 
+                    mb: 2,
+                    p: 2,
+                    bgcolor: 'background.paper',
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'divider'
+                  }}
+                >
+                  <Typography variant="subtitle2" gutterBottom>
+                    {file.name}
+                  </Typography>
+                  
+                  {file.previewContent && (
+                    <Paper 
+                      sx={{ 
+                        p: 2, 
+                        mb: 2, 
+                        bgcolor: 'grey.50',
+                        maxHeight: '200px', 
+                        overflow: 'auto' 
+                      }}
+                    >
+                      <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+                        {file.previewContent}
+                      </Typography>
+                    </Paper>
+                  )}
 
-            {queuedFile.progress > 0 && (
-              <LinearProgress variant="determinate" value={queuedFile.progress} sx={{ mt: 1 }} />
-            )}
-          </Box>
-        ))}
+                  {queuedFiles.find(q => q.file === file)?.progress > 0 && (
+                    <Box sx={{ mt: 2 }}>
+                      <Typography variant="body2" color="text.secondary">
+                        Converting: {queuedFiles.find(q => q.file === file)?.progress}%
+                      </Typography>
+                      <LinearProgress 
+                        variant="determinate" 
+                        value={queuedFiles.find(q => q.file === file)?.progress} 
+                        sx={{ mt: 1 }} 
+                      />
+                    </Box>
+                  )}
+                </Box>
+              ))}
+            </Box>
+          )}
+        </Box>
 
-        <Box sx={{ mb: 3 }}>
+        <Box sx={{ 
+          mt: 'auto',
+          pt: 2,
+          borderTop: '1px solid',
+          borderColor: 'divider'
+        }}>
           <Typography variant="subtitle1" gutterBottom>
             Target Format:
           </Typography>
@@ -116,35 +212,36 @@ export const FileConversion: React.FC<FileConversionProps> = ({ files, onConvers
             value={targetFormat}
             onChange={handleFormatChange}
             disabled={converting}
+            size="small"
             sx={{ minWidth: 200 }}
           >
             <MenuItem value="html">HTML</MenuItem>
             <MenuItem value="pdf">PDF</MenuItem>
             <MenuItem value="markdown">Markdown</MenuItem>
           </Select>
-        </Box>
 
-        {error && (
-          <Typography color="error" sx={{ mt: 2 }}>
-            {error}
-          </Typography>
-        )}
-
-        <Button
-          variant="contained"
-          onClick={handleConvert}
-          disabled={converting || queuedFiles.length === 0}
-          sx={{ mt: 3 }}
-        >
-          {converting ? (
-            <>
-              Converting...
-              <CircularProgress size={24} sx={{ ml: 1 }} />
-            </>
-          ) : (
-            'Convert Files'
+          {error && (
+            <Typography color="error" sx={{ mt: 2 }}>
+              {error}
+            </Typography>
           )}
-        </Button>
+
+          <Button
+            variant="contained"
+            onClick={handleConvert}
+            disabled={converting || files.length === 0}
+            sx={{ mt: 3 }}
+          >
+            {converting ? (
+              <>
+                Converting...
+                <CircularProgress size={24} sx={{ ml: 1 }} />
+              </>
+            ) : (
+              'Convert Files'
+            )}
+          </Button>
+        </Box>
       </Paper>
     </Box>
   );

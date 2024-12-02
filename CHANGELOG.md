@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Enhanced preview container with permanent visibility and improved empty state
+- Clear step-by-step instructions for file conversion workflow
+- Improved file preview cards with better spacing and scrolling
+- Visual hierarchy improvements with consistent borders and spacing
+
+### Changed
+- FileConversion component now always visible instead of conditionally rendered
+- Improved preview container layout with fixed minimum height
+- Enhanced empty state UI with better typography and visual guidance
+- Reorganized conversion controls with better visual separation
+
+### Fixed
+- Preview container now properly visible on initial page load
+- Empty state instructions consistently displayed when no files selected
+- File preview scrolling behavior improved
+- Visual consistency across all application states
+
 ## [1.2.1] - 2024-12-01
 
 ### Added

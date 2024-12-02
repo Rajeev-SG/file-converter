@@ -66,6 +66,13 @@ This document tracks known issues and deprecated packages in the current boilerp
    - Drag and drop functionality requires modern browser support
    - CSS animations may not work in all browsers
 
+### Recent Improvements
+1. **Preview Container**
+   - Fixed: Empty state visibility
+   - Fixed: Preview container always visible
+   - Fixed: Consistent UI across all states
+   - Fixed: Proper scrolling behavior for file previews
+
 ### Potential Issues
 1. **Memory Management**
    - Large files may cause performance issues
